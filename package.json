@@ -1,8 +1,8 @@
 {
   "name": "proxy-gtw",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Proxy Gateway",
+  "author": "dfonseca",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
