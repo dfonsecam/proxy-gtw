@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Optional } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ClientRequest, IncomingMessage } from 'http';
 import * as proxy from 'http-proxy-middleware';
@@ -9,6 +9,12 @@ export class ProxyService {
 
     public get proxy(): proxy.RequestHandler {
         return this._proxy;
+    }
+
+    constructor(@Optional() target?: string) {
+        if (!!target) {
+            this._proxy = this.create({ target });
+        }
     }
 
     public create(params: proxy.Options): proxy.RequestHandler {
@@ -32,6 +38,7 @@ export function onError(err: Error, req: Request, res: Response): void {
 }
 
 export function onProxyReq(proxyReq: ClientRequest, req: Request): void {
+    proxyReq.setHeader('Accept-Encoding', 'UTF-8');
     console.log('Proxying from %s to %s', req.originalUrl, proxyReq.path);
 }
 

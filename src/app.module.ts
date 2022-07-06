@@ -23,7 +23,7 @@ export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(AuthMiddleware)
-            .forRoutes('*')
+            .forRoutes('/api')
             .apply(ProxyMiddleware)
             .forRoutes('*');
     }
