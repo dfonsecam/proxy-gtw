@@ -12,7 +12,7 @@ export class ProxyMiddleware implements NestMiddleware {
     use(req: any, res: any, next: () => void) {
         let target: string;
         if (req.originalUrl.includes('/oauth')) {
-            target = this.configService.get('PRXY_TARGET0');
+            target = this.configService.get('PROXY_TARGET0');
         } else if (req.originalUrl.includes('/users')) {
             target = this.configService.get('PROXY_TARGET1');
         } else if (req.originalUrl.includes('/clients')) {

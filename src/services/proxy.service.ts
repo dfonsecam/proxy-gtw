@@ -33,12 +33,21 @@ export function onError(err: Error, req: Request, res: Response): void {
     console.error(
         `Proxy Error  ${req.method} to '${req.originalUrl}: ${err.message}'`,
     );
-    res.writeHead(500, { 'Content-Type': 'text/plain' });
-    res.end('Something went wrong. Internal Server Error.');
+    if (err.message.includes('ECONNREFUSED')) {
+        res.writeHead(503, { 'Content-Type': 'text/plain' });
+        res.end('Service Unavailable');
+    } else {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(`Something went wrong: ${err.message}`);
+    }
 }
 
 export function onProxyReq(proxyReq: ClientRequest, req: Request): void {
     proxyReq.setHeader('Accept-Encoding', 'UTF-8');
+    if (req.body) {
+        const data = JSON.stringify(req.body);
+        proxyReq.setHeader('Content-Length', Buffer.byteLength(data));
+    }
     console.log('Proxying from %s to %s', req.originalUrl, proxyReq.path);
 }
 
