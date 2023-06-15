@@ -23,7 +23,7 @@ export class AuthMiddleware implements NestMiddleware {
         secret: process.env.JWT_SECRET,
       });
     } catch (error) {
-      throw new ForbiddenException(error);
+      throw new ForbiddenException(error.message, { cause: error });
     }
     next();
   }
