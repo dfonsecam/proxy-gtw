@@ -1,4 +1,8 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NestMiddleware,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ProxyService } from '../services/proxy.service';
 
@@ -17,6 +21,9 @@ export class ProxyMiddleware implements NestMiddleware {
       target = this.configService.get('PROXY_TARGET1');
     } else if (req.originalUrl.includes('/clients')) {
       target = this.configService.get('PROXY_TARGET2');
+    }
+    if (!target) {
+      throw new BadGatewayException('Service unavailable');
     }
 
     const proxy = this.proxyService.create({ target });

@@ -12,7 +12,7 @@ export class ProxyService {
   }
 
   constructor(@Optional() target?: string) {
-    if (!!target) {
+    if (target) {
       this._proxy = this.create({ target });
     }
   }
