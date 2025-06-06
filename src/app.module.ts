@@ -1,9 +1,13 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthMiddleware } from './middlewares/auth.middleware';
+import { OAuthMiddleware } from './middlewares/oauth.middleware';
 import { ProxyMiddleware } from './middlewares/proxy.middleware';
-import { ProxyService } from './services/proxy.service';
 
 @Module({
   imports: [
@@ -20,14 +24,16 @@ import { ProxyService } from './services/proxy.service';
       },
     }),
   ],
-  providers: [ProxyService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
+      .apply(OAuthMiddleware)
       .forRoutes('/api')
       .apply(ProxyMiddleware)
-      .forRoutes('*');
+      .forRoutes({
+        path: '(.*)',
+        method: RequestMethod.ALL,
+      });
   }
 }

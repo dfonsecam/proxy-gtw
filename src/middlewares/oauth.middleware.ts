@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 
 @Injectable()
-export class AuthMiddleware implements NestMiddleware {
+export class OAuthMiddleware implements NestMiddleware {
   constructor(private jwtService: JwtService) {}
 
   use(req: Request, res: Response, next: () => void) {
