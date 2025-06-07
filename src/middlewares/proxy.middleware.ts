@@ -15,11 +15,11 @@ export class ProxyMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
     let target: string;
     if (req.originalUrl.includes('/oauth')) {
-      target = this.configService.get('PROXY_TARGET0');
-    } else if (req.originalUrl.includes('/users')) {
-      target = this.configService.get('PROXY_TARGET1');
+      target = this.configService.get('PROXY_TARGET_OAUTH');
     } else if (req.originalUrl.includes('/clients')) {
-      target = this.configService.get('PROXY_TARGET2');
+      target = this.configService.get('PROXY_TARGET_CLIENTS');
+    } else if (req.originalUrl.includes('/members')) {
+      target = this.configService.get('PROXY_TARGET_MEMBERS');
     }
     if (!target) {
       throw new BadGatewayException('Service unavailable');
