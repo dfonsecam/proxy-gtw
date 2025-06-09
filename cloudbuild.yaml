@@ -14,17 +14,20 @@ steps:
       - 'gateway'
       - '--image'
       - 'gcr.io/${PROJECT_ID}/gateway:latest'
+      - '--allow-unauthenticated'
       - '--region'
       - 'us-central1'
       - '--platform'
       - 'managed'
-      - '--allow-unauthenticated'
       - '--ingress'
-      - 'internal-and-cloud-load-balancing'
+      - 'all'
       - '--memory'
       - '512Mi'
-      - '--set-env-vars'
-      - 'GOOGLE_CLOUD_PROJECT=${PROJECT_ID}'
+      # vpc configuration
+      - '--vpc-connector'
+      - 'projects/${PROJECT_ID}/locations/us-central1/connectors/vpc-sconn-01'
+      - '--vpc-egress'
+      - 'all'
 
 timeout: 1200s
 images: ['gcr.io/${PROJECT_ID}/gateway:latest']

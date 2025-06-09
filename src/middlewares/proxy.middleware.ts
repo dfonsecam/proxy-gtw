@@ -15,8 +15,8 @@ export class ProxyMiddleware implements NestMiddleware {
   use(req: any, res: any, next: () => void) {
     const routeTargetMap: { [key: string]: string } = {
       '/oauth': this.configService.get('PROXY_TARGET_OAUTH'),
-      '/clients': this.configService.get('PROXY_TARGET_CLIENTS'),
-      '/members': this.configService.get('PROXY_TARGET_MEMBERS'),
+      '/api/clients': this.configService.get('PROXY_TARGET_CLIENTS'),
+      '/api/members': this.configService.get('PROXY_TARGET_MEMBERS'),
     };
     const foundRoute = Object.keys(routeTargetMap).find((route) =>
       req.originalUrl.startsWith(route),
