@@ -1,5 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import * as jwt from 'jsonwebtoken';
 import request from 'supertest';
 import { AppModule } from './../src/app.module';
 
@@ -19,7 +20,6 @@ describe('ProxyMiddleware (e2e)', () => {
     await app.init();
 
     // Generate JWT token for tests
-    const jwt = require('jsonwebtoken');
     jwtToken = jwt.sign(
       { sub: 'test-user' },
       process.env.JWT_SECRET || 'my-super-secret-value',
