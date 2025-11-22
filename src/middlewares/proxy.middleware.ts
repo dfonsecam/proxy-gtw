@@ -13,7 +13,7 @@ export class ProxyMiddleware implements NestMiddleware {
   constructor(private readonly configService: ConfigService) {}
 
   use(req: any, res: any, next: () => void) {
-    const routeTargetMap: { [key: string]: string } = {
+    const routeTargetMap: { [key: string]: string | undefined } = {
       '/oauth': this.configService.get('PROXY_TARGET_OAUTH'),
       '/api/clients': this.configService.get('PROXY_TARGET_CLIENTS'),
       '/api/members': this.configService.get('PROXY_TARGET_MEMBERS'),
@@ -21,7 +21,7 @@ export class ProxyMiddleware implements NestMiddleware {
     const foundRoute = Object.keys(routeTargetMap).find((route) =>
       req.originalUrl.startsWith(route),
     );
-    const target = routeTargetMap?.[foundRoute];
+    const target = routeTargetMap?.[foundRoute ?? ''];
     if (!target) {
       throw new BadGatewayException('Service unavailable');
     }
