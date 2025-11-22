@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
 
 @Injectable()
 export class OAuthMiddleware implements NestMiddleware {
-  constructor(private jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   use(req: Request, res: Response, next: () => void) {
     console.log('Headers sent: ', res.headersSent);

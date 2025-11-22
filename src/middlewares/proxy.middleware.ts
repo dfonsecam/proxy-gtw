@@ -10,7 +10,7 @@ import { ClientRequest, IncomingMessage } from 'node:http';
 
 @Injectable()
 export class ProxyMiddleware implements NestMiddleware {
-  constructor(private configService: ConfigService) {}
+  constructor(private readonly configService: ConfigService) {}
 
   use(req: any, res: any, next: () => void) {
     const routeTargetMap: { [key: string]: string } = {
